@@ -7,4 +7,4 @@ export default defineNuxtConfig({
     prefix: "",
     componentDir: `${__dirname}/components/ui`,
   }
-})
+});
