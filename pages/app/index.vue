@@ -3,22 +3,11 @@ definePageMeta({
   middleware: ['auth']
 });
 
-const $oidc = useOidc();
 </script>
 
 <template>
-  <div v-if="!$oidc.isLoggedIn">
-    <p>Loading...</p>
-  </div>
-  <div v-if="$oidc.isLoggedIn">
-  <h1>You have logged in</h1>
-  <p>
-    {{$oidc.user}}
-  </p>
-  <Button @click="$oidc.logout('/')">
-    Logout
-  </Button>
-  </div>
+  <h1>App page</h1>
+
 </template>
 
 <style scoped>
