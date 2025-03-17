@@ -2,19 +2,10 @@ import {useSession, sendRedirect} from "h3";
 import useKeycloak from "~/composables/useKeycloak";
 
 export default defineEventHandler(async (event) => {
-    if (event.method !== "GET") {
-        return {
-            status: 405,
-            body: "Method Not Allowed"
-        }
-    }
+
     const now = Date.now();
     const future = now + 1000 * 60 * 60;
-    const sessionConfig = {
 
-        name: "oidc_session",
-        password: "d41d8cd98f00b204e9800998ecf8427e" // This is a secret key, you should use a secret key
-    }
     const session = await useSession(event, {
         cookie: {
             httpOnly: true,
@@ -22,7 +13,7 @@ export default defineEventHandler(async (event) => {
             sameSite: "lax",
             expires: new Date(future),
         },
-        ...sessionConfig,
+        ...event.context.sessionConfig,
     });
 
     const {init, calculatePKCECodeChallenge, getCodeVerifier,} = useKeycloak();

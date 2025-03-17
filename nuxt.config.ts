@@ -11,7 +11,11 @@ export default defineNuxtConfig({
     componentDir: `${__dirname}/components/ui`,
   },
   runtimeConfig: {
-
+    keycloak: {
+      sessionPassword: ""
+    }
   },
-
+  imports: {
+      autoImport: true,
+  }
 });

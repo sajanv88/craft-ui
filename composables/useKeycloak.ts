@@ -1,3 +1,4 @@
+
 import * as client from 'openid-client'
 
 export type KeyCloakConfig = {
@@ -31,7 +32,6 @@ export const clientConfig: KeyCloakConfig = {
     responseType: "code",
 }
 export default function useKeycloak() {
-    // const token = useState<TokenSet | null>("tokenSet", () => null);
 
     async function init() {
         if(!clientConfig.clientId) {
