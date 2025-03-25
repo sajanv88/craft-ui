@@ -1,11 +1,11 @@
-import { useSession,  getRequestHeaders, sendRedirect, getQuery  } from 'h3';
+import { useSession,  getRequestHeaders, sendRedirect  } from 'h3';
 import useKeycloak from "~/composables/useKeycloak";
 
 export default defineEventHandler(async (event) => {
 
 
 
-    const { init, setAuthenticated } = useKeycloak()
+    const { init } = useKeycloak()
     const session = await useSession(event, event.context.sessionConfig);
     const {client, clientConfig, discoveryInfo} = await init();
 
@@ -34,7 +34,6 @@ export default defineEventHandler(async (event) => {
         sub: claims?.sub
     });
 
-    setAuthenticated(true);
     return sendRedirect(event, clientConfig.postLoginRedirectUri ?? "/app");
 
 });

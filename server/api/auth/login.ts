@@ -4,7 +4,7 @@ import useKeycloak from "~/composables/useKeycloak";
 export default defineEventHandler(async (event) => {
 
     const now = Date.now();
-    const future = now + 1000 * 60 * 60;
+    const future = now + (1000 * 60 * 60);
 
     const session = await useSession(event, {
         cookie: {
