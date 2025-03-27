@@ -4,10 +4,10 @@ export default defineEventHandler(async (event) => {
 
     const session = await useSession(event, event.context.sessionConfig);
     if (!session.data.id_token && !session.data.access_token) {
-        return {
+        return Response.json({
             status: 401,
             body: "Unauthorized"
-        }
+        }, {status: 401})
     }
     const {init} = useKeycloak();
     const {client, discoveryInfo} = await init();
