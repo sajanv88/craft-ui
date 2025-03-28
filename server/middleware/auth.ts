@@ -10,6 +10,7 @@ export default defineEventHandler((event) => {
    const config = useRuntimeConfig();
     event.context.sessionConfig = {
         name: "oidc_session",
-        password: config.keycloak.sessionPassword
+        password: config.keycloak.sessionPassword,
+        maxAge: 3600, // 1 hour
     }
 });

@@ -1,53 +1,1 @@
-<script setup lang="ts">
-
-import {createApiClient, schemas} from "~/lib/api-client";
-import type {TableColumn} from "#ui/components/Table.vue";
-
-
-definePageMeta({
-  middleware: ['authenticated'],
-  layout: 'app-layout'
-});
-
-const client = createApiClient("https://localhost:7093")
-const {data, status} = await useAsyncData('localizations', async () => {
-  return await client.get("/api/locales");
-});
-
-;
-
-
-const columns: TableColumn<typeof schemas.LocaleDto>[] = [
-  {
-    accessorKey: 'key',
-    header: 'Key',
-    cell: (info) => info.getValue(),
-  },
-  {
-    accessorKey: 'value',
-    header: 'Content',
-    cell: (info) => info.getValue(),
-  },
-  {
-    accessorKey: 'cultureCode',
-    header: 'Culture Code',
-    cell: (info) => info.getValue(),
-  }
-]
-
-
-</script>
-
-<template>
-  <div>
-    <UTable :loading="status === 'pending'"
-            loading-color="primary"
-            :columns="columns"
-            loading-animation="carousel" :data="data?.items ?? []"
-            class="flex-1"/>
-  </div>
-</template>
-
-<style scoped>
-
-</style>
+<script setup lang="ts">import {createApiClient, schemas} from "~/lib/api-client";import type {TableColumn, TableRow} from "#ui/components/Table.vue";import {z} from "zod";import type {DropdownMenuItem} from "#ui/components/DropdownMenu.vue";definePageMeta({  middleware: ['authenticated'],  layout: 'app-layout'});const client = createApiClient("https://localhost:7093")const {data, status} = await useAsyncData('localizations', async () => {  return await client.get("/api/locales");});const loading = computed(() => status.value === 'pending');const columns: TableColumn<z.infer<typeof schemas.LocaleDto>>[] = [  {    accessorKey: 'key',    header: 'Key',    cell: (info) => info.getValue(),  },  {    accessorKey: 'value',    header: 'Content',    cell: (info) => info.getValue(),  },  {    accessorKey: 'cultureCode',    header: 'Culture Code',    cell: (info) => info.getValue(),  },  {    id: 'action',  }]const onSelect = (row: TableRow<z.infer<typeof schemas.LocaleDto>>, e?: Event) => {  console.log(row);}function getDropdownActions(l: z.infer<typeof schemas.LocaleDto>): DropdownMenuItem[][] {  return [    [      {        label: 'Edit',        icon: 'i-lucide-edit',        onSelect(e: Event) {          e.stopPropagation();          console.log('Edit', l);        }      },      {        label: 'Delete',        icon: 'i-lucide-trash',        color: 'error'      }    ]  ]}</script><template>  <section>    <header class="flex items-center justify-between p-5 text-secondary-950 bg-white shadow-md">      <h1 class="text-2xl md:text-4xl py-3">Localization Management</h1>      <UButton icon="i-lucide-plus" size="xl" class="md:hidden mr-5" />      <UButton icon="i-lucide-plus" size="xl" class="hidden md:flex">Add New Locale</UButton>    </header>    <main class="pt-10">      <UTable          :loading="loading"          loading-color="primary"          loading-animation="carousel"          :columns="columns"          :data="data?.items ?? []"          :onSelect="onSelect"          class="flex-1">        <template #action-cell="{ row }">          <UDropdownMenu :items="getDropdownActions(row.original)">            <UButton                icon="i-lucide-ellipsis-vertical"                color="neutral"                variant="ghost"                aria-label="Actions"            />          </UDropdownMenu>        </template>      </UTable>    </main>  </section></template><style scoped></style>
