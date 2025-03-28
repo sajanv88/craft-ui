@@ -5,7 +5,6 @@ export default defineNuxtRouteMiddleware( async (to, from) => {
     const { setTokens, clearTokens } =  useTokenStore()
     const {  setLoading } = useLoadingStore();
     const response = await fetch("/api/auth/token");
-    console.log(response);
     if(response.status === 401) {
         clearTokens();
         setLoading(false);
