@@ -23,11 +23,11 @@
         Craft Modules on GitHub
       </a>
     </p>
-    <section class="py-5">
-      <a href="/api/auth/login" class="bg-green-600 hover:bg-green-700  text-white px-4 py-2 transition-colors duration-200">
-        Login
-      </a>
-    </section>
+<!--    <section class="py-5">-->
+<!--      <a href="/api/auth/login" class="bg-green-600 hover:bg-green-700  text-white px-4 py-2 transition-colors duration-200">-->
+<!--        Login-->
+<!--      </a>-->
+<!--    </section>-->
   </section>
 </template>
 
